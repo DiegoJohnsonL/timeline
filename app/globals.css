@@ -2,14 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-body {
-  font-family: 'lora', serif;
-}
-
-h1, h2, h3, h4, h5, h6 {
-  font-family: 'play-fair', serif;
-}
-
 @layer utilities {
   .text-balance {
     text-wrap: balance;
@@ -56,9 +48,17 @@ h1, h2, h3, h4, h5, h6 {
 
 @layer base {
   * {
-    @apply border-border;
+    @apply border-border font-lora;
   }
   body {
     @apply bg-background text-foreground;
+  }
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply font-playfair;
   }
 }

@@ -1,6 +1,20 @@
-import { Button } from "@/components/ui/button"
+"use client"
 
+import { Button } from "@/components/ui/button"
+import { signIn, useSession } from "next-auth/react"
+import { useRouter } from "next/navigation";
+  
 export default function Hero() {
+  const {data: session} = useSession();
+  const isLoggedIn = !!session?.user;
+  const router = useRouter();
+  const onClick = () => {
+    if (isLoggedIn) {
+      router.push('/onboarding');
+    } else {
+      signIn("google", {redirectTo: "/onboarding"});
+    }
+  }
   return (
     <section className="relative py-24 md:py-32">
       <div className="container relative z-10">
@@ -13,7 +27,7 @@ export default function Hero() {
             Celebrate your special moments together in a unique and meaningful way.
           </p>
           <div className="mt-10 flex items-center justify-center gap-6">
-            <Button size="lg">Get Started for Free</Button>
+            <Button size="lg" onClick={onClick}>Get Started for Free</Button>
           </div>
         </div>
       </div>

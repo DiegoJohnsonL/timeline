@@ -10,15 +10,16 @@ const config: Config = {
   theme: {
 	container: {
 		center: true,
-		padding: "1.5rem",
+		padding: "1rem",
 		screens: {
 			"2xl": "1400px",
 		},
 	},
   	extend: {
 		fontFamily: {
-			'play-fair': ["Playfair Display", "serif"],
-			'lora': ["Lora", "serif"],
+			'playfair': ["var(--font-playfair)", "serif"],
+			'lora': ["var(--font-lora)", "serif"],
+			'caveat': ["var(--font-caveat)", "cursive"],
 		},
   		colors: {
   			background: 'hsl(var(--background))',

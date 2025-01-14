@@ -1,9 +1,21 @@
-import Link from "next/link"
-import { Button } from "@/components/ui/button"
-import { auth } from "@/lib/auth"
+"use client"
 
-export async function Header() {
-  const session = await auth()
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import { signIn, useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
+
+export function Header() {
+  const {data: session} = useSession();
+  const router = useRouter();
+  const isLoggedIn = !!session?.user;
+  const onClick = () => {
+    if (isLoggedIn) {
+      router.push('/onboarding');
+    } else {
+      signIn("google", {redirectTo: "/onboarding"});
+    }
+  }
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container flex h-16 items-center justify-between">
@@ -24,14 +36,9 @@ export async function Header() {
           </Link>
         </nav>
         <div className="flex items-center gap-4">
-          {session ? (
-            <Button>Get Started</Button>
-          ) : (
-            <Button>Learn More</Button>
-          )}
+          <Button onClick={onClick}>Get Started</Button>
         </div>
       </div>
     </header>
-  )
+  );
 }
-

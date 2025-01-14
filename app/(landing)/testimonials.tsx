@@ -1,4 +1,4 @@
-import { Card, CardContent, CardHeader } from "@/components/ui/card"
+import { Card, CardContent } from "@/components/ui/card"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 
 const testimonials = [
@@ -31,7 +31,7 @@ export default function Testimonials() {
                     <AvatarImage src={testimonial.image} alt={testimonial.author} />
                     <AvatarFallback>{testimonial.author[0]}</AvatarFallback>
                   </Avatar>
-                  <blockquote className="text-xl italic">"{testimonial.quote}"</blockquote>
+                  <blockquote className="text-xl italic">&quot;{testimonial.quote}&quot;</blockquote>
                   <p className="font-medium">— {testimonial.author}</p>
                 </div>
               </CardContent>

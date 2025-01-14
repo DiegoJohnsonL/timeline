@@ -166,7 +166,7 @@ export default function Pricing() {
               <Button
                   onClick={() => {
                     if (plan.href) {
-                      signIn("google", {redirectTo: "/home"})
+                      signIn("google", {redirectTo: "/onboarding"})
                     }
                   }}
                   disabled={plan.href ? false : true}
