@@ -9,7 +9,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Input } from "@/components/ui/input";
 import LoadingAnimation from "./loading-animation";
 import { Session } from "next-auth";
-// import HeartsAnimation from "./hearts-animation";
+import HeartsAnimation from "./hearts-animation";
 import { z } from "zod";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
@@ -33,13 +33,13 @@ const onboardingSchema = z.object({
   userId: z.string().min(1, "User ID is required"),
   timelineTitle: z.string().min(1, "Please enter a title "),
   timelineDescription: z.string().min(1, "Please enter a description"),
-    events: z.array(
-      z.object({
-        title: z.string().min(1, "Please enter an event title"),
-        date: z.date(),
-        description: z.string().min(1, "Please enter an event description"),
-      })
-    ),
+  events: z.array(
+    z.object({
+      title: z.string().min(1, "Please enter an event title"),
+      date: z.date(),
+      description: z.string().min(1, "Please enter an event description"),
+    })
+  ),
 });
 
 type OnboardingSchema = z.infer<typeof onboardingSchema>;
@@ -55,23 +55,23 @@ export default function OnboardingComponent({ session }: { session: Session }) {
       userId: session.user!.id,
       timelineTitle: "",
       timelineDescription: "",
-        events: [
-          {
-            title: "",
-            date: new Date(),
-            description: "",
-          },
-        ],
+      events: [
+        {
+          title: "",
+          date: new Date(),
+          description: "",
+        },
+      ],
     },
   });
 
   const nextStep = async () => {
     if (step > 0) {
-        const fields = steps[step].fields as (keyof OnboardingSchema)[];
-        const valid = await form.trigger(fields);
-        if (!valid) {
-            return;
-        }
+      const fields = steps[step].fields as (keyof OnboardingSchema)[];
+      const valid = await form.trigger(fields);
+      if (!valid) {
+        return;
+      }
     }
     setStep((prevStep) => prevStep + 1);
   };
@@ -98,7 +98,9 @@ export default function OnboardingComponent({ session }: { session: Session }) {
     <Form {...form}>
       <div className="min-h-screen relative mx-auto flex items-center justify-center bg-background">
         {step >= 0 && (
-          <div className="absolute bottom-0 left-1/2 -translate-x-1/2  z-0 opacity-50">{/* <HeartsAnimation /> */}</div>
+          <div className="w-full h-full z-0 absolute top-0 left-0">
+            <HeartsAnimation />
+          </div>
         )}
         <div className="w-full z-10">
           <AnimatePresence mode="wait">
@@ -141,20 +143,23 @@ function WelcomeStep({ nextStep }: { nextStep: () => void }) {
     >
       <h1 className="text-4xl font-bold text-foreground mb-4">Happy One Year Anniversary Meu Amor ❤️</h1>
       <p className="text-xl text-foreground/80 mb-4 font-caveat">
-        Last year with you has been the best year of my life. It has been filled with so many amazing memories, crazy adventures, hard decisions, lots of laughs, LOTS of food and a lot of love. That is why i want to create a place where we can store all our memories together, a place to come back, remember and talk about everything we have done together. 
+        Last year with you has been the best year of my life. It has been filled with so many amazing memories, crazy
+        adventures, hard decisions, lots of laughs, LOTS of food and a lot of love. That is why i want to create a place
+        where we can store all our memories together, a place to come back, remember and talk about everything we have
+        done together.
       </p>
-     
-        <Button
-          onClick={nextStep}
-          className="bg-primary font-caveat text-base text-primary-foreground px-6 py-2 rounded-full hover:bg-primary/90 transition-all duration-300"
-        >
-          Start Our Journey
-        </Button>
+
+      <Button
+        onClick={nextStep}
+        className="bg-primary font-caveat text-base text-primary-foreground px-6 py-2 rounded-full hover:bg-primary/90 transition-all duration-300"
+      >
+        Start Our Journey
+      </Button>
     </motion.div>
   );
 }
 
-function TimelineCreationStep({ form, nextStep }: { form: any, nextStep: () => void }) {
+function TimelineCreationStep({ form, nextStep }: { form: any; nextStep: () => void }) {
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -166,8 +171,8 @@ function TimelineCreationStep({ form, nextStep }: { form: any, nextStep: () => v
       <div className="">
         <h2 className="text-2xl font-semibold text-foreground mb-2">Create Your Timeline</h2>
         <p className="text-foreground/80">
-          A timeline is a collection of our special moments together. Give it a meaningful title and description 
-          that captures the essence of our journey.
+          A timeline is a collection of our special moments together. Give it a meaningful title and description that
+          captures the essence of our journey.
         </p>
       </div>
       <div className="space-y-6">
@@ -199,18 +204,18 @@ function TimelineCreationStep({ form, nextStep }: { form: any, nextStep: () => v
           )}
         />
       </div>
-     
-        <Button
-          onClick={nextStep}
-          className="bg-primary font-caveat text-base text-primary-foreground px-6 py-2 rounded-full hover:bg-primary/90 transition-all duration-300"
-        >
-          Next
-        </Button>
+
+      <Button
+        onClick={nextStep}
+        className="bg-primary font-caveat text-base text-primary-foreground px-6 py-2 rounded-full hover:bg-primary/90 transition-all duration-300"
+      >
+        Next
+      </Button>
     </motion.div>
   );
 }
 
-function FirstEventStep({ form, nextStep }: { form: any, nextStep: () => void }) {
+function FirstEventStep({ form, nextStep }: { form: any; nextStep: () => void }) {
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -222,8 +227,8 @@ function FirstEventStep({ form, nextStep }: { form: any, nextStep: () => void })
       <div className="mb-8 space-y-2">
         <h2 className="text-2xl font-semibold text-foreground ">Add Your First Memory</h2>
         <p className="text-foreground/80">
-          Let&apos;s start with your first special moment together. It could be your first date, 
-          when you met, or any other meaningful beginning to your story.
+          Let&apos;s start with your first special moment together. It could be your first date, when you met, or any
+          other meaningful beginning to your story.
         </p>
       </div>
       <FormField
@@ -271,18 +276,18 @@ function FirstEventStep({ form, nextStep }: { form: any, nextStep: () => void })
           </FormItem>
         )}
       />
-     
-        <Button
-          onClick={nextStep}
-          className="bg-primary text-primary-foreground font-caveat text-base px-6 py-2 rounded-full hover:bg-primary/90 transition-all duration-300"
-        >
-          Next
-        </Button>
+
+      <Button
+        onClick={nextStep}
+        className="bg-primary text-primary-foreground font-caveat text-base px-6 py-2 rounded-full hover:bg-primary/90 transition-all duration-300"
+      >
+        Next
+      </Button>
     </motion.div>
   );
 }
 
-function CompletionStep({  onSubmit, isLoading }: {  onSubmit: () => void, isLoading: boolean }) {
+function CompletionStep({ onSubmit, isLoading }: { onSubmit: () => void; isLoading: boolean }) {
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -293,20 +298,22 @@ function CompletionStep({  onSubmit, isLoading }: {  onSubmit: () => void, isLoa
     >
       <h2 className="text-2xl font-semibold text-foreground ">Antes de começarmos, tenho algo para te dizer.</h2>
       <p className=" text-foreground/80 ">
-        Meu amor, cada momento ao seu lado é um presente precioso que guardo no coração. Você trouxe luz e alegria para 
-        minha vida de uma forma que nunca imaginei ser possível. Seu sorriso ilumina meus dias, sua força me inspira, 
-        e seu amor me faz querer ser uma pessoa melhor a cada dia. Não consigo imaginar minha vida sem você, sem 
-        nossas risadas, nossos momentos juntos, até mesmo quando você me tira do sério e me dá vontade de te matar, mas não consigo porque você é fofa demais. Você é meu amor, minha melhor amiga, minha companheira de vida. Te amo mais do que palavras podem expressar, 
-        hoje e sempre. Obrigado por fazer parte da minha história e por me permitir fazer parte da sua.
+        Vanessa, quero que você saiba que cada momento ao seu lado é um presente precioso que guardo no coração. Você trouxe luz e alegria para
+        minha vida de uma forma que nunca imaginei ser possível. Seu sorriso ilumina meus dias, sua força me inspira, e
+        seu amor me faz querer ser uma pessoa melhor a cada dia. Não consigo imaginar minha vida sem você, sem nossas
+        risadas, nossos momentos juntos, até mesmo quando você me tira do sério e me dá vontade de te matar, mas não
+        consigo porque você é fofa demais. Você é meu amor, minha melhor amiga, minha companheira de vida. Te amo mais
+        do que palavras podem expressar, hoje e sempre. Obrigado por fazer parte da minha história e por me permitir
+        fazer parte da sua.
       </p>
-      
-        <Button
-          onClick={onSubmit}
-          disabled={isLoading}
-          className="bg-primary text-primary-foreground font-caveat text-base px-6 py-2 rounded-full hover:bg-primary/90 transition-all duration-300 disabled:opacity-50"
-        >
-          {isLoading ? "Loading..." : "Continue"}
-        </Button>
+
+      <Button
+        onClick={onSubmit}
+        disabled={isLoading}
+        className="bg-primary text-primary-foreground font-caveat text-base px-6 py-2 rounded-full hover:bg-primary/90 transition-all duration-300 disabled:opacity-50"
+      >
+        {isLoading ? "Loading..." : "Continue"}
+      </Button>
     </motion.div>
   );
 }
